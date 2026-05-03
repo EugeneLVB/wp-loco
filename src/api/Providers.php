@@ -36,10 +36,17 @@ abstract class Loco_api_Providers {
         $apis = [];
         foreach( self::builtin() as $a ){
             if( ! array_key_exists('cors',$a) ){
-                $authed = (bool) $a['key'];
-                $a = array_intersect_key( $a, ['id'=>'','name'=>'','url'=>''] );
-                // dummy key must be present, so we know the api is available.
-                $a['key'] = $authed ? 'REDACTED' : '';
+                // LM Studio uses endpoint instead of key
+                if( 'lmstudio' === ($a['id'] ?? '') ){
+                    $authed = (bool) $a['endpoint'];
+                    $a = array_intersect_key( $a, ['id'=>'','name'=>'','url'=>'','endpoint'=>'','model'=>'','prompt'=>'','timeout'=>''] );
+                    $a['endpoint'] = $authed ? $a['endpoint'] : '';
+                }
+                else {
+                    $authed = (bool) $a['key'];
+                    $a = array_intersect_key( $a, ['id'=>'','name'=>'','url'=>''] );
+                    $a['key'] = $authed ? 'REDACTED' : '';
+                }
             }
             $apis[] = $a;
         }
@@ -89,6 +96,16 @@ abstract class Loco_api_Providers {
                 'prompt' => $settings->offsetGet('openai_api_prompt'),
                 'url' => 'https://openai.com/policies/usage-policies/',
             ] ),
+            apply_filters('loco_api_provider_lmstudio', [
+                'id' => 'lmstudio',
+                'name' => 'LM Studio',
+                'endpoint' => $settings->offsetGet('lmstudio_api_endpoint'),
+                'model' => $settings->offsetGet('lmstudio_api_model'),
+                'key' => $settings->offsetGet('lmstudio_api_key'),
+                'prompt' => $settings->offsetGet('lmstudio_api_prompt'),
+                'timeout' => $settings->offsetGet('lmstudio_api_timeout'),
+                'url' => 'https://lmstudio.ai/',
+            ] ),
         ];
     }
     
@@ -107,6 +124,10 @@ abstract class Loco_api_Providers {
      * @param $api string[]
      */
     private static function filterConfigured( array $api ):bool {
+        // LM Studio doesn't require a key, only endpoint
+        if( 'lmstudio' === ($api['id'] ?? '') ){
+            return array_key_exists('endpoint',$api) && is_string($api['endpoint']) && '' !== $api['endpoint'];
+        }
         return array_key_exists('key',$api) && is_string($api['key']) && '' !== $api['key'];
     }
 

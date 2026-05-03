@@ -30,6 +30,11 @@
  * @property string $openai_api_key API key for OpenAI / ChatGPT translator
  * @property string $openai_api_model Model for OpenAI / ChatGPT translator
  * @property string $openai_api_prompt Custom prompt for OpenAI / ChatGPT translator
+ * @property string $lmstudio_api_endpoint API endpoint for LM Studio
+ * @property string $lmstudio_api_model Model for LM Studio
+ * @property string $lmstudio_api_key API key for LM Studio (optional)
+ * @property string $lmstudio_api_prompt Custom prompt for LM Studio
+ * @property int $lmstudio_api_timeout Request timeout for LM Studio in seconds
  * 
  * TODO @property bool $php_pretty Whether to pretty print .l10n.php files
  */
@@ -72,6 +77,11 @@ class Loco_data_Settings extends Loco_data_Serializable {
         'openai_api_key' => '',
         'openai_api_model' => '',
         'openai_api_prompt' => '',
+        'lmstudio_api_endpoint' => 'http://localhost:1234/v1/chat/completions',
+        'lmstudio_api_model' => '',
+        'lmstudio_api_key' => '',
+        'lmstudio_api_prompt' => '',
+        'lmstudio_api_timeout' => 120,
     ];
 
 

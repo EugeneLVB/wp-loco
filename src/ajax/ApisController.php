@@ -83,6 +83,9 @@ class Loco_ajax_ApisController extends Loco_mvc_AjaxController {
             if( 'deepl' === $vendor ){
                 $targets = Loco_api_DeepL::process( $sources, $locale, $config );
             }
+            else if( 'lmstudio' === $vendor ){
+                $targets = Loco_api_LmStudio::process( $sources, $locale, $config );
+            }
             else if( Loco_api_ChatGpt::supports($vendor) ){
                 $targets = Loco_api_ChatGpt::process( $sources, $locale, $config+['vendor'=>$hook] );
             }

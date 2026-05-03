@@ -137,6 +137,52 @@ $help = apply_filters('loco_external','https://localise.biz/wordpress/plugin/man
                     </fieldset>
                 </td>
             </tr><?php
+            // LM STUDIO
+            $api = $apis['lmstudio']?> 
+            <tr>
+                <th scope="row"><?php $api->e('name')?></th>
+                <td>
+                    <fieldset>
+                        <legend class="screen-reader-text">
+                            <span>LM Studio</span>
+                        </legend>
+                        <p>
+                            <label for="loco--lmstudio_api_endpoint">
+                                Endpoint:
+                            </label>
+                            <input type="text" size="50" name="api[lmstudio][endpoint]" id="loco--lmstudio_api_endpoint" value="<?php $api->e('endpoint')?>" placeholder="http://localhost:1234/v1/chat/completions" spellcheck="false" />
+                        </p>
+                        <p>
+                            <label for="loco--lmstudio_api_model">
+                                Model:
+                            </label>
+                            <input type="text" size="50" name="api[lmstudio][model]" id="loco--lmstudio_api_model" value="<?php $api->e('model')?>" placeholder="local-model" spellcheck="false" />
+                        </p>
+                        <p>
+                            <label for="loco--lmstudio_api_key">
+                                <?php $ui->e('api_key')?> (optional):
+                            </label>
+                            <input type="text" size="50" name="api[lmstudio][key]" id="loco--lmstudio_api_key" value="<?php $api->e('key')?>" spellcheck="false" />
+                        </p>
+                        <p>
+                            <label for="loco--lmstudio_prompt" style="vertical-align: top">
+                                Prompt:
+                            </label>
+                            <textarea class="regular-text" name="api[lmstudio][prompt]" id="loco--lmstudio_prompt"><?php $api->e('prompt')?></textarea>
+                        </p>
+                        <p>
+                            <label for="loco--lmstudio_api_timeout">
+                                Timeout (seconds):
+                            </label>
+                            <input type="number" size="10" name="api[lmstudio][timeout]" id="loco--lmstudio_api_timeout" value="<?php $api->e('timeout')?>" placeholder="120" min="30" max="600" />
+                            <span class="description">Increase for slow models (default: 120)</span>
+                        </p>
+                        <p>
+                            <span class="description"><a href="https://lmstudio.ai/" target="_blank" tabindex="-1">https://lmstudio.ai/</a></span>
+                        </p>
+                    </fieldset>
+                </td>
+            </tr><?php
             /* @var Loco_mvc_ViewParams[] $hooked */
             foreach( $hooked as $api ):?> 
             <tr>
